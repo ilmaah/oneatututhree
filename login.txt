@@ -1,0 +1,40 @@
+import wixData from 'wix-data';
+const { google } = require("googleapis");
+
+let options = {
+	"suppressAuth": true // suppress db auth to allow secure db permissions
+};
+
+export async function getSheetId() {
+	/*const response = await wixData.query("config").eq('title', 'Sheetid').find(options);
+	console.log("sheetid");
+	console.log(response);
+	if(response.items.length === 0) return null;
+	return response.items[0].value;*/
+	return "1ysk-CF0pgyVS5xErz0m7WWFSO-iBRZBFAu7DS2Gl3zU";
+}
+
+export async function getTokens() {
+	/*const response = await wixData.query("config").eq('title', 'Refreshtoken').find(options);
+	console.log("token");
+	console.log(response);
+	if(response.items.length === 0) return null;
+	return JSON.parse(response.items[0].value);*/
+	return JSON.parse('{"access_token":"ya29.a0AfH6SMDQMfywKGneSlsathyhpm90KdFT5m7YzKF4T--4JGlVu09j8yxGlljT664orNwaXmwLHZR2qiRASE_D-pwqHBGqVCAm2uxRzGUMdYzUz81JhU49SwaC1JQANo9o_BjCeNDp6BVhLXAsgxqk2wMLZXttDx2SkMI","refresh_token":"1//06v1X9gMLTuHfCgYIARAAGAYSNwF-L9IrkgQVqsZqo0nQxGRjFlZScq95nOZklVAVDa4brSlEqMEAl27I3NZzsx_URUS2XbEh7Oo","scope":"https://www.googleapis.com/auth/spreadsheets","token_type":"Bearer","expiry_date":1590119782232}');
+
+}
+
+export async function getClientConfig() {
+	/*const response = await wixData.query("config").eq('title', 'Clientconfig').find(options);
+	console.log("clientconfig");
+	console.log(response);
+	if(response.items.length === 0) return null;*/
+	return '{"installed":{"client_id":"243372257965-tld8c4gk2is8n9kopb5cslu1odid1f56.apps.googleusercontent.com","project_id":"quickstart-1590104822390","auth_uri":"https://accounts.google.com/o/oauth2/auth","token_uri":"https://oauth2.googleapis.com/token","auth_provider_x509_cert_url":"https://www.googleapis.com/oauth2/v1/certs","client_secret":"H3w9qIPocVzelxnNSriy_z7h","redirect_uris":["urn:ietf:wg:oauth:2.0:oob","http://localhost"]}}';
+}
+
+export async function createClient() {
+	let val = await getClientConfig();
+	let credentials = JSON.parse(val);
+	const { client_secret, client_id, redirect_uris } = credentials.installed;
+	return new google.auth.OAuth2(client_id, client_secret, redirect_uris[0]);
+}
